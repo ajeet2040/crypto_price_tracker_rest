@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web:
+    restart: always
+    build: ./
+    command:
+      sh -c "python manage.py makemigrations &&
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000 --noreload"
+    volumes:
+      - ./:/code
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env

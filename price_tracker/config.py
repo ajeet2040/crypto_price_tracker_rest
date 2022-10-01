@@ -18,4 +18,4 @@ EMAIL_PORT = env('port')
 
 # TEST sender and receiver for Mailtrap
 SENDER = "Private Person <ajeet@example.com>"
-RECEIVER = "A Test User <test@example.com>"
+RECEIVER = env('email')
