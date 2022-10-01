@@ -1,5 +1,22 @@
 """Module to define any utility methods"""
 from datetime import datetime
+import smtplib
+from price_tracker.config import EMAIL_HOST, EMAIL_PORT, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
+
+
+def send_email(sender, receiver, subject, message):
+    message_body = f"""\
+        Subject: {subject}
+        To: {receiver}
+        From: {sender}
+        {message}"""
+    try:
+        with smtplib.SMTP(EMAIL_HOST, EMAIL_PORT) as server:
+            server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+            server.sendmail(sender, receiver, message_body)
+            print("Email through mailtrap sent successfully!")
+    except Exception as err:
+        print(f"Error occurred while sending email: {err}")
 
 
 def generate_date(date_text: str, date_format: str) -> datetime.date:

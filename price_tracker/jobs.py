@@ -4,13 +4,34 @@ Module to define jobs (background/blocking)
 from price_tracker.fetch_crypto_price import FetchPriceCryptoCoinGecko
 from price_tracker.models import PriceTracker
 from django.utils.timezone import now as utcnow
-from price_tracker.config import CRYPTOS_TO_BE_TRACKED
+from price_tracker.config import CRYPTOS_TO_BE_TRACKED, SENDER, RECEIVER, MIN_PRICE_USD, MAX_PRICE_USD
+from price_tracker.utils import send_email
+
+
+def send_email_bitcoin_trigger(bitcoin_usd_price):
+    """
+    Send Email if trigger(min and max limit) satisfies for coin 'bitcoin'
+    Args:
+        bitcoin_usd_price (float): USD price of bitcoin
+    Returns: None
+
+    """
+    subject = None
+    message = None
+    if bitcoin_usd_price < MIN_PRICE_USD:
+        subject = "Bitcoin Price Drop Alert!"
+        message = f"Bitcoin Price has dropped to '{bitcoin_usd_price}'!"
+    if bitcoin_usd_price > MAX_PRICE_USD:
+        subject = "Bitcoin Price Rise Alert!"
+        message = f"Bitcoin Price has raised to '{bitcoin_usd_price}'!"
+    if subject is not None:
+        send_email(SENDER, RECEIVER, subject, message)
 
 
 def fetch_save_crypto_price() -> None:
     """
     Fetches price for cryptos as per the 'CRYPTOS_TO_BE_TRACKED' config and saves in the database
-    Returns:
+    Returns: None
     """
     try:
         print("fetch_price_coin_periodic started...")
@@ -33,6 +54,7 @@ def fetch_save_crypto_price() -> None:
                 price_tracker.timestamp = utcnow()
                 price_tracker.save()
         print("fetch_price_coin_periodic completed!")
+        send_email_bitcoin_trigger(price_res["bitcoin"]["usd"])
     # Log error in case of any exception
     except Exception as err:
         print("Error occurred while fetching and saving crypto price", err)
