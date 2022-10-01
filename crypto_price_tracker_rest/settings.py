@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'price_tracker'
+    'price_tracker.apps.PriceTrackerConfig',
 ]
 
 MIDDLEWARE = [
