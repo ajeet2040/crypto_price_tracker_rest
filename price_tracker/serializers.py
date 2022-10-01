@@ -3,7 +3,7 @@ from rest_framework import serializers
 from price_tracker.models import PriceTracker
 
 
-class PriceTrackerSerializer(serializers.HyperlinkedModelSerializer):
+class PriceTrackerSerializer(serializers.ModelSerializer):
     """
     Serializer for Price Tracker
     """

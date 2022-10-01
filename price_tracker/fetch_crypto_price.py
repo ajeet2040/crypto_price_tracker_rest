@@ -10,15 +10,15 @@ class FetchPriceCryptoCoinGecko:
     """
     price_url = "https://api.coingecko.com/api/v3/simple/price"
 
-    def __init__(self, coin: str, price_currency: str) -> None:
+    def __init__(self, coins: str, price_currencies: str) -> None:
         """
         Constructor for FetchPriceCrypto
         Args:
-            coin (str): supported coin for which price needs to be fetched
-            price_currency (str): currency in which price needs to be fetched
+            coins (str): coins for which price needs to be fetched
+            price_currencies (str): currencies in which price needs to be fetched
         """
-        self.coin = coin
-        self.price_currency = price_currency
+        self.coins = coins
+        self.price_currencies = price_currencies
 
     def fetch_price(self) -> dict:
         """
@@ -26,8 +26,8 @@ class FetchPriceCryptoCoinGecko:
         Returns: (dict) response data.
         """
         params = {
-            "ids": self.coin,
-            "vs_currencies": self.price_currency
+            "ids": self.coins,
+            "vs_currencies": self.price_currencies
         }
         try:
             res = requests.get(self.price_url, params=params)
