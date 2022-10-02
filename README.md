@@ -6,9 +6,10 @@ along with its timestamp.
 ## Prerequisites
     - Docker (Installed)
     - There should not be any app running on port 8000.
-      (This can be changed in docker compose yaml file.) (Ideally should be a part of .env)
+      (This can be changed in port binding of docker compose yaml file.)
 
-## How to Run (Locally)
+
+## HOW TO RUN (LOCALLY)
 1. After cloning/downloading the project, create a `.env` file in root directory by copying contents from `.env.dist` file.
 2. Replace the below variables in the `.env` file.
     ```
@@ -29,20 +30,36 @@ along with its timestamp.
    ```
    http://localhost:8000/api/prices/?offset=0&limit=10&date=01-10-2022
    ```
-   For more detailed documentation, view TODO
+   For more detailed documentation, view https://documenter.getpostman.com/view/22925969/2s83tFJBsN
 
 ## Assumptions:
 1. Max pagination limit is 1000 records for API and Default limit is 10 records.
-2. For API `api/prices/`, all params are optional and records are sorted by latest first.
+2. For API `api/prices/`, all params are optional and records are sorted by latest timestamp first.
 3. For API `api/prices/`, timestamp will be unique column.
 
 ## Important!
-Due to Mailtrap requiring business account for smtp Inbox activation, unable to complete full settings of same.
+Due to Mailtrap requiring business account for smtp Inbox activation, unable to view messages in inbox.
 Was not able to see the received emails.
-However, Mailtrap does returns 200 response.
+However, Mailtrap provided smtp creds and does returns 200 response.
+
+## Testing.
+A sample test case was added for checking response of prices api. 
+> NOTE: Only one was added for demonstration due to time limit.
+
+- Setup virtual env and install dependencies (One time)
+    ```
+    python -m venv venv
+    source venv/bin/activate # For Windows, use .\env\Scripts\activate
+    pip install -r requirements.txt
+    pip install pytest-django 
+    ```
+- Run tests
+    ```
+    pytest
+    ```
 
 ## Future Considerations
+   - Add more Unit Test Cases.
    - Use a production database like `Postgres` instead of sqllite.
    - Docker configuration for production builds with a production server like `gunicorn`.
-   - Support for other coins and currencies.
-   - Authentication and Rate Limit to API.
+   - Support for other coins and currencies. (At present,module(fetch and save periodic) is designed in a way to support this.

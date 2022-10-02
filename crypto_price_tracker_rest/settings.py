@@ -89,6 +89,49 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'crypto_price_tracker_rest.wsgi.application'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'log_file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'debug.log',
+            'maxBytes': 16777216,  # 16megabytes
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        '': {
+            'handlers': ['log_file'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+        'app': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

@@ -1,4 +1,6 @@
 from crypto_price_tracker_rest.settings import env
+import logging
+logger = logging.getLogger('app')
 
 # Internal Configs
 CRYPTOS_TO_BE_TRACKED = {

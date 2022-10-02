@@ -2,6 +2,7 @@
 Module that fetches coin prices in desired formats from third party API.
 """
 import requests
+from price_tracker.config import logger
 
 
 class FetchPriceCryptoCoinGecko:
@@ -32,8 +33,7 @@ class FetchPriceCryptoCoinGecko:
         try:
             res = requests.get(self.price_url, params=params)
             res.raise_for_status()
-            print(res)
             return res.json()
         except requests.exceptions.HTTPError as err:
-            print("HTTP error occurred", err)
+            logger.error("HTTP error occurred while fetching price from CoinGecko. Error: %s" % err)
             raise err

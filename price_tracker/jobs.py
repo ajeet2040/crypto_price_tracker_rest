@@ -4,7 +4,7 @@ Module to define jobs (background/blocking)
 from price_tracker.fetch_crypto_price import FetchPriceCryptoCoinGecko
 from price_tracker.models import PriceTracker
 from django.utils.timezone import now as utcnow
-from price_tracker.config import CRYPTOS_TO_BE_TRACKED, SENDER, RECEIVER, MIN_PRICE_USD, MAX_PRICE_USD
+from price_tracker.config import CRYPTOS_TO_BE_TRACKED, SENDER, RECEIVER, MIN_PRICE_USD, MAX_PRICE_USD, logger
 from price_tracker.utils import send_email
 
 
@@ -34,7 +34,7 @@ def fetch_save_crypto_price() -> None:
     Returns: None
     """
     try:
-        print("fetch_price_coin_periodic started...")
+        logger.info("Fetch and Store Price of Crypto process started...")
         coins = [x[1] for x in CRYPTOS_TO_BE_TRACKED['coins']]
         coins = ','.join(coins)
         # Fetch Price Date
@@ -53,8 +53,8 @@ def fetch_save_crypto_price() -> None:
                 # as soon as response is received
                 price_tracker.timestamp = utcnow()
                 price_tracker.save()
-        print("fetch_price_coin_periodic completed!")
+        logger.info("Fetch and Store Price of Crypto process completed successfully !")
         send_email_bitcoin_trigger(price_res["bitcoin"]["usd"])
     # Log error in case of any exception
     except Exception as err:
-        print("Error occurred while fetching and saving crypto price", err)
+        logger.error("Error occurred while fetching and saving crypto price. Error is %s" % err)
