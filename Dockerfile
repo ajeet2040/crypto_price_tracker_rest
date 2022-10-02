@@ -10,6 +10,4 @@ COPY . drf_src
 WORKDIR drf_src
 
 EXPOSE 8000
-CMD sh -c "python manage.py makemigrations &&
-      python manage.py migrate &&
-      python manage.py runserver 0.0.0.0:8000 --noreload"
+CMD python manage.py runserver 0.0.0.0:8000 --noreload
