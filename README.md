@@ -36,6 +36,13 @@ along with its timestamp.
 1. Max pagination limit is 1000 records for API and Default limit is 10 records.
 2. For API `api/prices/`, all params are optional and records are sorted by latest timestamp first.
 3. For API `api/prices/`, timestamp will be unique column.
+4. The peridic fetch and save starts after 30s (configured) from the app run.
+
+## Tech stack
+1. Python -  https://www.python.org/
+1. Django Rest Framework - https://www.django-rest-framework.org/
+2. sqlite3 (database)- https://docs.python.org/3/library/sqlite3.html
+3. APScheduler (background periodic jobs)- https://github.com/agronholm/apscheduler
 
 ## Important!
 Due to Mailtrap requiring business account for smtp Inbox activation, unable to view messages in inbox.
@@ -59,7 +66,9 @@ A sample test case was added for checking response of prices api.
     ```
 
 ## Future Considerations
+   - Send email to be called asynchronously.
    - Add more Unit Test Cases.
+   - Set up CI/CD pipeline (start with running unit test cases)
    - Use a production database like `Postgres` instead of sqllite.
    - Docker configuration for production builds with a production server like `gunicorn`.
    - Support for other coins and currencies. (At present,module(fetch and save periodic) is designed in a way to support this.

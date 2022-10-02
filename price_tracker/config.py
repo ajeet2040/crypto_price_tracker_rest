@@ -21,3 +21,6 @@ EMAIL_PORT = env('port')
 # TEST sender and receiver for Mailtrap
 SENDER = "Private Person <ajeet@example.com>"
 RECEIVER = env('email')
+
+# Interval for perioduc fetch and save crypto price
+INTERVAL_IN_SECONDS = 30
