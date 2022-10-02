@@ -11,21 +11,39 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+import environ
+
+# Env Config
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False),
+    SECRET_KEY=(str, False),
+    min=(float, False),
+    max=(float, False),
+    host=(str, False),
+    port=(int, False),
+    username=(str, False),
+    password=(str, False),
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Read env variables
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+DEBUG = env('DEBUG')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-gmywt+mh7y8bt8o5n3vt8wna*bqv!33#nt39b@$c3#33zdt@&*'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +55,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'price_tracker.apps.PriceTrackerConfig',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +89,49 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'crypto_price_tracker_rest.wsgi.application'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'log_file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'debug.log',
+            'maxBytes': 16777216,  # 16megabytes
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        '': {
+            'handlers': ['log_file'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+        'app': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
