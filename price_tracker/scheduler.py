@@ -4,7 +4,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 from price_tracker.config import INTERVAL_IN_SECONDS
 
-def start_job():
+def start_job() -> None:
     """
         Starts specified jobs using 'apscheduler' library.
     """

@@ -4,7 +4,7 @@ import smtplib
 from price_tracker.config import EMAIL_HOST, EMAIL_PORT, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, logger
 
 
-def send_email(sender, receiver, subject, message):
+def send_email(sender: str, receiver: str, subject: str, message: str) -> None:
     message_body = f"""\
         Subject: {subject}
         To: {receiver}

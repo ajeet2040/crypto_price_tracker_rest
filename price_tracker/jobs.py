@@ -8,7 +8,7 @@ from price_tracker.config import CRYPTOS_TO_BE_TRACKED, SENDER, RECEIVER, MIN_PR
 from price_tracker.utils import send_email
 
 
-def send_email_bitcoin_trigger(bitcoin_usd_price):
+def send_email_bitcoin_trigger(bitcoin_usd_price: float) -> None:
     """
     Send Email if trigger(min and max limit) satisfies for coin 'bitcoin'
     Args:
