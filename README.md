@@ -44,10 +44,9 @@ along with its timestamp.
 2. sqlite3 (database)- https://docs.python.org/3/library/sqlite3.html
 3. APScheduler (background periodic jobs)- https://github.com/agronholm/apscheduler
 
-## Important!
-Due to Mailtrap requiring business account for smtp Inbox activation, unable to view messages in inbox.
-Was not able to see the received emails.
-However, Mailtrap provided smtp creds and does returns 200 response.
+## NOTE!
+Mailtrap provided smtp credentials and does returns 200 response for sent email script, however was not able to see received emails.
+(Not entirely sure if it requires business account to view emails.)
 
 ## Testing.
 A sample test case was added for checking response of prices api. 
