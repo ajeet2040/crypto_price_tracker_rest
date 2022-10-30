@@ -1,22 +1,27 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 
-# Create your tests here.
-
-import pytest
 from django.urls import reverse
 
 from price_tracker.models import PriceTracker
 from price_tracker.serializers import PriceTrackerSerializer
 
 
-@pytest.mark.django_db
-def test_list_prices(client):
-    """Sample Test Case to test list of all prices."""
-    url = reverse('prices')
-    response = client.get(url)
+class TestPriceAPI(TestCase):
+    def setUp(self) -> None:
+        self.client = Client()
 
-    prices = PriceTracker.objects.all()
-    expected_data = PriceTrackerSerializer(prices, many=True,).data
-
-    assert response.status_code == 200
-    assert response.data["data"] == expected_data
+    def test_list_prices(self):
+        """Sample Test Case to test lists prices api."""
+        # Create a sample object
+        PriceTracker.objects.create(**{"coin":"btc", "price":100, "currency": "USD"})
+        # Call list API
+        url = reverse('prices')
+        response = self.client.get(url)
+        # Expected Data
+        prices = PriceTracker.objects.all()
+        expected_data = PriceTrackerSerializer(prices, many=True,).data
+        print(expected_data)
+        print(response.data["data"])
+        # Assertions
+        assert response.status_code == 200
+        assert response.data["data"] == expected_data
